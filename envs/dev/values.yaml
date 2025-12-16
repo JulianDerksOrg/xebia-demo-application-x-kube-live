@@ -1,0 +1,25 @@
+# Development environment overrides
+
+image:
+  tag: "latest" # Or specific SHA for dev
+
+replicaCount: 1
+
+env:
+  - name: VERSION
+    value: "dev"
+  - name: COLOR
+    value: "#28a745" # Green for dev
+  - name: API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: streaming-service
+        key: api-token
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 200m
+    memory: 128Mi

@@ -1,0 +1,25 @@
+# Acceptance environment overrides
+
+image:
+  tag: "" # Set to specific SHA after test validation
+
+replicaCount: 2
+
+env:
+  - name: VERSION
+    value: "acc"
+  - name: COLOR
+    value: "#17a2b8" # Cyan for acceptance
+  - name: API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: streaming-service
+        key: api-token
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi

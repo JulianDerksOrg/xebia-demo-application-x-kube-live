@@ -1,0 +1,52 @@
+# Base values shared across all environments
+# These are overridden by env-specific values
+
+replicaCount: 1
+
+image:
+  repository: europe-west4-docker.pkg.dev/sandbox-9456/applications/streaming-service
+  pullPolicy: IfNotPresent
+  tag: "" # Set per environment
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+env:
+  - name: VERSION
+    value: "" # Set per environment
+  - name: COLOR
+    value: "#667eea"
+  - name: API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: streaming-service
+        key: api-token
+
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: /health
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 3

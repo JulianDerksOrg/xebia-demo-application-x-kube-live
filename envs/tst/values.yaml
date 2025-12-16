@@ -1,0 +1,25 @@
+# Test environment overrides
+
+image:
+  tag: "" # Set to specific SHA after dev validation
+
+replicaCount: 1
+
+env:
+  - name: VERSION
+    value: "tst"
+  - name: COLOR
+    value: "#ffc107" # Yellow for test
+  - name: API_TOKEN
+    valueFrom:
+      secretKeyRef:
+        name: streaming-service
+        key: api-token
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
